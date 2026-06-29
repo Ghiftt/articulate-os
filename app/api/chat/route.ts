@@ -136,7 +136,7 @@ PERSONA:
 
 export async function POST(req: NextRequest) {
   try {
-    const { message, conversationHistory, session } = await req.json();
+    const { message, conversationHistory } = await req.json();
 
     const messages = [
       ...conversationHistory,
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
     const fullResponse = completion.choices[0].message.content ?? "";
 
     const sessionUpdateMatch = fullResponse.match(/SESSION_UPDATE:\s*({.*})/);
-    let sessionUpdate: any = {};
+    let sessionUpdate: Record<string, unknown> = {};
     if (sessionUpdateMatch) {
       try { sessionUpdate = JSON.parse(sessionUpdateMatch[1]); } catch {}
     }

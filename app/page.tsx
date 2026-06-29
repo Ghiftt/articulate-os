@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Send, BookOpen, BarChart2, PenLine, Map, RefreshCw, ChevronRight, Lock, CheckCircle2, Circle } from "lucide-react";
+import { Send, BookOpen, BarChart2, PenLine, Map, RefreshCw, ChevronRight, CheckCircle2, Circle } from "lucide-react";
 
 interface Message { role: "user" | "assistant"; content: string; }
 interface Genome {
@@ -323,6 +323,7 @@ useEffect(() => {
     const savedMessages = lsGet("et2_messages");
     const savedSession = lsGet("et2_session");
     if (savedMessages) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       try { setMessages(JSON.parse(savedMessages) as Message[]); } catch {}
     } else {
       setMessages([{ role: "assistant", content: INITIAL_MESSAGE }]);
@@ -332,7 +333,7 @@ useEffect(() => {
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
-  function mergeSession(current: Session, update: any): Session {
+  function mergeSession(current: Session, update: Record<string, unknown>): Session {
     return {
       mode: update.mode ?? current.mode,
       genome: { ...current.genome, ...(update.genome ?? {}) },
