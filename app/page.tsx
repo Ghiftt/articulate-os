@@ -16,23 +16,11 @@ interface Session {
 }
 
 const C = {
-  bg: "#000000",
-  surface: "#0a0a0a",
-  card: "#111111",
-  cardHover: "#161616",
-  border: "#1f1f1f",
-  borderLight: "#2a2a2a",
-  accent: "#059669",
-  accentLight: "#34d399",
-  accentDim: "#022c22",
-  accentGlow: "rgba(5, 150, 105, 0.15)",
-  text: "#f9fafb",
-  textMuted: "#6b7280",
-  textDim: "#374151",
-  danger: "#ef4444",
-  warning: "#f59e0b",
-  success: "#34d399",
-  white: "#ffffff",
+  bg: "#000000", surface: "#0a0a0a", card: "#111111", cardHover: "#161616",
+  border: "#1f1f1f", borderLight: "#2a2a2a", accent: "#059669", accentLight: "#34d399",
+  accentDim: "#022c22", accentGlow: "rgba(5, 150, 105, 0.15)", text: "#f9fafb",
+  textMuted: "#6b7280", textDim: "#374151", danger: "#ef4444", warning: "#f59e0b",
+  success: "#34d399", white: "#ffffff",
 };
 
 function lsSet(key: string, value: string) {
@@ -113,7 +101,6 @@ const SKILLS = [
   ]},
 ];
 
-// ── Genome Bar ──
 function GenomeBar({ label, score, color }: { label: string; score: number; color: string }) {
   return (
     <div style={{ marginBottom: "14px" }}>
@@ -128,7 +115,6 @@ function GenomeBar({ label, score, color }: { label: string; score: number; colo
   );
 }
 
-// ── Message List ──
 function MessageList({ messages, loading, bottomRef }: {
   messages: Message[]; loading: boolean; bottomRef: React.RefObject<HTMLDivElement | null>;
 }) {
@@ -162,7 +148,6 @@ function MessageList({ messages, loading, bottomRef }: {
   );
 }
 
-// ── Rewrite Panel ──
 function RewritePanel({ rewriteInput, setRewriteInput, rewriteContext, setRewriteContext, analyzeAndRewrite, analyzing }: {
   rewriteInput: string; setRewriteInput: (v: string) => void;
   rewriteContext: "casual" | "professional"; setRewriteContext: (v: "casual" | "professional") => void;
@@ -180,18 +165,8 @@ function RewritePanel({ rewriteInput, setRewriteInput, rewriteContext, setRewrit
       </div>
       <div>
         <div style={{ fontSize: "11px", color: C.textMuted, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "12px" }}>Your Writing</div>
-        <textarea
-          value={rewriteInput}
-          onChange={(e) => setRewriteInput(e.target.value)}
-          placeholder="Paste anything you wrote — an email, a message, a post, a paragraph. The AI will diagnose where communication broke down, rewrite it, and explain every change."
-          rows={10}
-          style={{ width: "100%", background: C.card, border: "1px solid " + C.border, borderRadius: "10px", padding: "14px", color: C.text, fontSize: "14px", outline: "none", resize: "vertical", lineHeight: 1.7, fontFamily: "inherit", boxSizing: "border-box" }}
-        />
-        <button
-          onClick={analyzeAndRewrite}
-          disabled={analyzing || !rewriteInput.trim()}
-          style={{ marginTop: "12px", width: "100%", padding: "14px", background: analyzing || !rewriteInput.trim() ? C.card : C.accent, border: "1px solid " + (analyzing || !rewriteInput.trim() ? C.border : C.accent), borderRadius: "10px", color: analyzing || !rewriteInput.trim() ? C.textMuted : C.white, fontSize: "14px", fontWeight: 700, cursor: analyzing || !rewriteInput.trim() ? "not-allowed" : "pointer", letterSpacing: "0.02em" }}
-        >
+        <textarea value={rewriteInput} onChange={(e) => setRewriteInput(e.target.value)} placeholder="Paste anything you wrote — an email, a message, a post, a paragraph. The AI will diagnose where communication broke down, rewrite it, and explain every change." rows={10} style={{ width: "100%", background: C.card, border: "1px solid " + C.border, borderRadius: "10px", padding: "14px", color: C.text, fontSize: "16px", outline: "none", resize: "vertical", lineHeight: 1.7, fontFamily: "inherit", boxSizing: "border-box" }} />
+        <button onClick={analyzeAndRewrite} disabled={analyzing || !rewriteInput.trim()} style={{ marginTop: "12px", width: "100%", padding: "14px", background: analyzing || !rewriteInput.trim() ? C.card : C.accent, border: "1px solid " + (analyzing || !rewriteInput.trim() ? C.border : C.accent), borderRadius: "10px", color: analyzing || !rewriteInput.trim() ? C.textMuted : C.white, fontSize: "14px", fontWeight: 700, cursor: analyzing || !rewriteInput.trim() ? "not-allowed" : "pointer", letterSpacing: "0.02em" }}>
           {analyzing ? "Analyzing..." : "Diagnose & Rewrite"}
         </button>
       </div>
@@ -210,12 +185,10 @@ function RewritePanel({ rewriteInput, setRewriteInput, rewriteContext, setRewrit
   );
 }
 
-// ── Genome Panel ──
 function GenomePanel({ session }: { session: Session }) {
   const g = session.genome;
   const hasData = Object.values(g).some(v => v > 0);
   const getColor = (score: number) => score >= 80 ? C.success : score >= 60 ? C.warning : C.danger;
-
   return (
     <div style={{ flex: 1, overflowY: "auto", padding: "20px", display: "flex", flexDirection: "column", gap: "16px" }}>
       {session.mission && (
@@ -265,7 +238,6 @@ function GenomePanel({ session }: { session: Session }) {
   );
 }
 
-// ── Skills Panel ──
 function SkillsPanel({ session }: { session: Session }) {
   return (
     <div style={{ flex: 1, overflowY: "auto", padding: "20px", display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -277,7 +249,7 @@ function SkillsPanel({ session }: { session: Session }) {
               const mastered = session.skills_mastered?.includes(skill.name);
               const current = session.current_skill === skill.name;
               return (
-                <div key={skill.id} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: current ? C.accentDim : C.card, border: "1px solid " + (current ? C.accent : mastered ? C.borderLight : C.border), borderRadius: "8px", transition: "all 0.2s" }}>
+                <div key={skill.id} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: current ? C.accentDim : C.card, border: "1px solid " + (current ? C.accent : mastered ? C.borderLight : C.border), borderRadius: "8px" }}>
                   <div style={{ flexShrink: 0 }}>
                     {mastered ? <CheckCircle2 size={15} color={C.accentLight} /> : current ? <Circle size={15} color={C.accent} /> : <Circle size={15} color={C.textDim} />}
                   </div>
@@ -296,7 +268,6 @@ function SkillsPanel({ session }: { session: Session }) {
   );
 }
 
-// ── Main ──
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -310,32 +281,31 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"train" | "rewrite" | "genome" | "skills">("train");
   const [rewriteInput, setRewriteInput] = useState("");
   const [rewriteContext, setRewriteContext] = useState<"casual" | "professional">("professional");
+  const [isMobile, setIsMobile] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-const [isMobile, setIsMobile] = useState(false);
-useEffect(() => {
-  const check = () => setIsMobile(window.innerWidth < 768);
-  check();
-  window.addEventListener("resize", check);
-  return () => window.removeEventListener("resize", check);
-}, []);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const savedMessages = lsGet("et2_messages");
     const savedSession = lsGet("et2_session");
     if (savedMessages) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       try { setMessages(JSON.parse(savedMessages) as Message[]); } catch {}
     } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMessages([{ role: "assistant", content: INITIAL_MESSAGE }]);
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (savedSession) { try { setSession(JSON.parse(savedSession)); } catch {} }
+  }, []);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function mergeSession(current: Session, update: any): Session {
+  function mergeSession(current: Session, update: any): Session {
     return {
       mode: update.mode ?? current.mode,
       genome: { ...current.genome, ...(update.genome ?? {}) },
@@ -426,12 +396,12 @@ function mergeSession(current: Session, update: any): Session {
         onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
         placeholder="Write here... (Shift+Enter for new line)"
         rows={isMobile ? 2 : 3}
-        style={{ flex: 1, background: C.card, border: "1px solid " + C.border, borderRadius: "10px", padding: "12px 16px", color: C.text, fontSize: "16px", outline: "none", resize: "none", lineHeight: 1.6, fontFamily: "inherit", transition: "border-color 0.2s" }}
+        style={{ flex: 1, background: C.card, border: "1px solid " + C.border, borderRadius: "10px", padding: "12px 16px", color: C.text, fontSize: "16px", outline: "none", resize: "none", lineHeight: 1.6, fontFamily: "inherit" }}
       />
       <button
         onClick={() => sendMessage()}
         disabled={loading || !input.trim()}
-        style={{ width: "44px", height: "44px", borderRadius: "50%", background: loading || !input.trim() ? C.card : C.accent, border: "1px solid " + (loading || !input.trim() ? C.border : C.accent), display: "flex", alignItems: "center", justifyContent: "center", cursor: loading || !input.trim() ? "not-allowed" : "pointer", flexShrink: 0, marginBottom: "2px", transition: "all 0.2s", boxShadow: !loading && input.trim() ? "0 0 12px " + C.accentGlow : "none" }}
+        style={{ width: "44px", height: "44px", borderRadius: "50%", background: loading || !input.trim() ? C.card : C.accent, border: "1px solid " + (loading || !input.trim() ? C.border : C.accent), display: "flex", alignItems: "center", justifyContent: "center", cursor: loading || !input.trim() ? "not-allowed" : "pointer", flexShrink: 0, marginBottom: "2px" }}
       >
         <Send size={16} color={loading || !input.trim() ? C.textDim : C.white} />
       </button>
@@ -442,7 +412,6 @@ function mergeSession(current: Session, update: any): Session {
     <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: C.bg, color: C.text, fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif", overflow: "hidden" }}>
       <style>{`* { box-sizing: border-box; } @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }`}</style>
 
-      {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", background: C.surface, borderBottom: "1px solid " + C.border, flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: C.accentDim, border: "1px solid " + C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -463,16 +432,14 @@ function mergeSession(current: Session, update: any): Session {
         </div>
       </div>
 
-      {/* Tabs */}
       <div style={{ display: "flex", background: C.surface, borderBottom: "1px solid " + C.border, flexShrink: 0 }}>
         {tabs.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, padding: "12px 0", background: "none", border: "none", borderBottom: "2px solid " + (activeTab === tab.id ? C.accent : "transparent"), color: activeTab === tab.id ? C.accentLight : C.textMuted, fontSize: "12px", fontWeight: 600, cursor: "pointer", letterSpacing: "0.04em", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", transition: "all 0.2s" }}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, padding: "12px 0", background: "none", border: "none", borderBottom: "2px solid " + (activeTab === tab.id ? C.accent : "transparent"), color: activeTab === tab.id ? C.accentLight : C.textMuted, fontSize: "12px", fontWeight: 600, cursor: "pointer", letterSpacing: "0.04em", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px" }}>
             {tab.icon}{tab.label}
           </button>
         ))}
       </div>
 
-      {/* Content */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {activeTab === "train" && (
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
