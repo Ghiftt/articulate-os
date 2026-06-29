@@ -323,13 +323,14 @@ useEffect(() => {
     const savedMessages = lsGet("et2_messages");
     const savedSession = lsGet("et2_session");
     if (savedMessages) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       try { setMessages(JSON.parse(savedMessages) as Message[]); } catch {}
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMessages([{ role: "assistant", content: INITIAL_MESSAGE }]);
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (savedSession) { try { setSession(JSON.parse(savedSession)); } catch {} }
-  }, []);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
