@@ -311,6 +311,13 @@ export default function Home() {
   const [rewriteInput, setRewriteInput] = useState("");
   const [rewriteContext, setRewriteContext] = useState<"casual" | "professional">("professional");
   const bottomRef = useRef<HTMLDivElement>(null);
+const [isMobile, setIsMobile] = useState(false);
+useEffect(() => {
+  const check = () => setIsMobile(window.innerWidth < 768);
+  check();
+  window.addEventListener("resize", check);
+  return () => window.removeEventListener("resize", check);
+}, []);
 
   useEffect(() => {
     const savedMessages = lsGet("et2_messages");
@@ -415,7 +422,7 @@ export default function Home() {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
         placeholder="Write here... (Shift+Enter for new line)"
-        rows={3}
+        rows={isMobile ? 2 : 3}
         style={{ flex: 1, background: C.card, border: "1px solid " + C.border, borderRadius: "10px", padding: "12px 16px", color: C.text, fontSize: "16px", outline: "none", resize: "none", lineHeight: 1.6, fontFamily: "inherit", transition: "border-color 0.2s" }}
       />
       <button
@@ -440,7 +447,7 @@ export default function Home() {
           </div>
           <div>
             <div style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "-0.02em" }}>Articulate <span style={{ color: C.accentLight }}>OS</span></div>
-            <div style={{ fontSize: "10px", color: C.textMuted, letterSpacing: "0.04em" }}>COGNITIVE COMMUNICATION TRAINING</div>
+            {!isMobile && <div style={{ fontSize: "10px", color: C.textMuted, letterSpacing: "0.04em" }}>COGNITIVE COMMUNICATION TRAINING</div>}
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
