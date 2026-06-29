@@ -333,7 +333,8 @@ useEffect(() => {
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
-  function mergeSession(current: Session, update: Record<string, unknown>): Session {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mergeSession(current: Session, update: any): Session {
     return {
       mode: update.mode ?? current.mode,
       genome: { ...current.genome, ...(update.genome ?? {}) },
